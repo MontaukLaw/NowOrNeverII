@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="EmployeeMapper">
+	<sql id="employeeColumns">ID,NAME,DEPARTMENT,ONBOARD_DATE,CONTACT_TEL
+	</sql>
+
+	<resultMap type="Employee" id="employeeResultMap">
+		<id column="ID" property="ID" />
+		<result column="NAME" property="NAME" />
+		<result column="DEPARTMENT" property="DEPARTMENT" />
+		<result column="ONBOARD_DATE" property="ONBOARD_DATE" />
+		<result column="CONTACT_TEL" property="CONTACT_TEL" />
+	</resultMap>
+
+	<!-- 根据ID搜索员工 -->
+	<select id="searchEmployeeByID" parameterType="pd" resultMap="employeeResultMap">
+		SELECT
+		<include refid="employeeColumns" />
+		FROM BASE_INFO.EMPLOYEE
+		WHERE 1=1
+		<if test="ID!=null">
+			AND ID = #{ID}
+		</if>
+	</select>
+
+
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ClientMapper">
+	<sql id="clientColumns">ID,NAME,ADDRESS,CONTACT_NAME,CONTACT_TEL,SALES_ID
+	</sql>
+
+	<resultMap type="Client" id="clientResultMap">
+		<id column="ID" property="ID" />
+		<result column="NAME" property="NAME" />
+		<result column="ADDRESS" property="ADDRESS" />
+		<result column="CONTACT_NAME" property="CONTACT_NAME" />
+		<result column="CONTACT_TEL" property="CONTACT_TEL" />
+		<association property="employee" column="SALES_ID"
+			javaType="Employee">
+			<id column="SALES_ID" property="ID" />
+			<result column="EMPLOYEE_NAME" property="NAME" />
+			<result column="EMPLOYEE_CONTACT_TEL" property="CONTACT_TEL" />
+		</association>
+	</resultMap>
+
+	<select id="findClientByID" parameterType="PD" resultMap="clientResultMap">
+		SELECT
+		client.ID ID, client.NAME NAME, client.ADDRESS ADDRESS,
+		client.CONTACT_NAME CONTACT_NAME, client.CONTACT_TEL CONTACT_TEL,
+		employee.NAME EMPLOYEE_NAME, employee.ID SALES_ID, employee.CONTACT_TEL	EMPLOYEE_CONTACT_TEL	
+		FROM BASE_INFO.CLIENT client
+		JOIN BASE_INFO.EMPLOYEE employee
+		ON client.SALES_ID = employee.ID
+		WHERE
+		client.ID=#{ID}
+	</select>
+
+
+
+</mapper>
